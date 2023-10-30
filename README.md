@@ -396,10 +396,25 @@ private let scheduleTitleTextField: UITextField = {
 ## 3️⃣ STEP 3
 ### STEP 3 Questions & Answers
 #### Q1. 비동기 처리
-- firebase에서 비동기로 가져온 데이터를 CoreData에 동기화하기 위해 @escaping clousre를  두 번 사용하다 보니 정상적으로 UI를 그리기 힘들었습니다. UI를 그리는 메서드를 콜백 안에 넣어서 처리해주어야 정상적으로 View가 그려지는데 혹시 비동기를 통해 가져온 데이터를 사용해 View를 그리기 위해서는 어떤 식으로 비동기 처리를 해야 하는지 궁금합니다. 현재는 viewDidLoad에 있어야 할 네비게이션 구성, UI 구성 등과 같은 작업이 콜백 안에 들어가 있어 어색할 수 있다는 염려가 있습니다.
-    
+
+- firebase에서 비동기로 가져온 데이터를 CoreData에 동기화하기 위해 @escaping clousre를 두 번 사용하다 보니 정상적으로 UI를 그리기 힘들었습니다. UI를 그리는 메서드를 콜백 안에 넣어서 처리해주어야 정상적으로 View가 그려지는데 혹시 비동기를 통해 가져온 데이터를 사용해 View를 그리기 위해서는 어떤 식으로 비동기 처리를 해야 하는지 궁금합니다. 현재는 viewDidLoad에 있어야 할 네비게이션 구성, UI 구성 등과 같은 작업이 콜백 안에 들어가 있어 어색할 수 있다는 염려가 있습니다.
+
+#### A1. 비동기 처리
+
+- 여러분들이 하신 방법처럼 콜백을 받으면 UI를 구성하는 방식으로 적용하시면 됩니다. 다만, 콜백이 네트워크가 가용하지 않은 상태에서도 반드시 받을 수 있도록 먼저 구성을 해두셔야 반드시 UI가 그려지는 것을 보장할 수 있을겁니다. 지금도 네트워크 가용여부에 관계 없이 UI를 그리는 구조이니 문제가 될만한 부분이라고 보이지는 않아요. escaping closure를 통해 콜백을 받는 방식이 마음에 들지 않으신다면 async/await 문법을 활용해보세요.
+
 #### Q2. localDatabase 와 RemoteDatabase 동기화
-- 현재 저희는 CoreData와 firebase에서 가져온 데이터가 다르다면 firebase에 저장된 데이터를 모두 제거하고 CoreData에 있는 데이터를 다시 firebase에 저장해 주고 있습니다. 로컬 DB와 원격 DB를 어떤 방식으로 동기화해야 하는지 궁금합니다.
-    
+
+- 현재 저희는 CoreData와 firebase에서 가져온 데이터가 다르다면 firebase에 저장된 데이터를 모두 제거하고 CoreData에 있는 데이터를 다시 firebase에 저장해 주고 있습니다. 로컬 DB와 원격 DB를 어떤 방식으로 동기화해야 하는지 궁금합니다. 현재는
+
+#### A2. localDatabase 와 RemoteDatabase 동기화
+
+- 정해진 방식은 없습니다. 여러분들이 구현하신 것처럼 정책을 세우시면 되는거죠. 지금 적용하신 방법대로라면 사용자가 여러 개의 기기를 가지고 있거나 앱을 새로 설치한 경우에는 원격에 저장된 데이터가 사라질 수도 있겠네요. 저라면 클라이언트와 백엔드 간 마지막 동기화한 시점을 알 수 있는 방안을 마련하고, 해당 시점을 기준으로 어느쪽의 데이터를 주거나 받을지 결정할 것 같네요.
+
 #### Q3. History를 위한 ViewModel
+
 - HistoryPopoverController에 있는 Cell을 생성하기 위해서는 HistoryLog 데이터가 필요한데 혹시 이러한 경우에 HistoryPopoverController에서 사용할 ViewModel을 따로 생성해 주는 게 좋을지 궁금합니다.
+
+#### A3. History를 위한 ViewModel
+
+- 현재는 목적에 맞게 테스트가 가능한가요? 기존에 담당한 ViewModel이 있다면 해당 데이터는 HistoryLog를 관리하는 목적으로 설계하셨나요? HistoryPopoverController에서 해당 ViewModel을 사용한다면 사용되지 않는 인터페이스는 없나요? 이런 질문들이 ViewModel을 새로 구성해야할지 여부를 판단하는 기준이 될 수 있을 것 같네요.
