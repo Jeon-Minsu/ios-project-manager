@@ -106,7 +106,7 @@
 
 - `UITableView`, `HeaderView`, `UIGraphicsImageRenderer`, `DatePicker`, `Core Data`, `SPM`, `firebase`, `MVVM`, `Test Double`, `PopoverController`
     
-## 기술 스택
+## 🛠 기술 스택
 ### target version
 `iOS 14.0`, `iPadOS 14.0`
 
@@ -273,10 +273,7 @@ MVC 아키텍처보다는 View를 다루는 로직에 대하여 테스트하기 
     - firebase 메서드 구현
     
 ## 🚀 TroubleShooting
-### STEP 2-1
-### STEP 2-2
-### STEP 2-3
-### STEP 2-4
+### STEP 2
 #### T1. InMemory 방식의 Core Data의 invalid fetch request 문제
 - OnDisk 방식에서의 Core Data Manager에 대하여 Popover내 버튼 클릭으로 인한 프로젝트 이동 구현 시, Core Data를 업데이트 하는 과정에서는 아무런 문제가 발견되지 않았습니다. 그러나, InMemory 방식의 Core Data Manager에서는 각각의 섹션으로부터 프로젝트를 이동시킬 때마다, invalid fetch request 에러가 발견되었습니다. 디스크 저장 방식에서는 정상적으로 작동되나, 메모리 저장 방식에서 비정상적으로 작동되는 원인을 살펴본 결과, 아래와 같이 각각의 Core Data Manager 인스턴스를 만들었기 때문에, 각 섹션에 고유한 저장소를 사용한 것이었습니다. 이에, 싱글턴 인스턴스를 생성하여, 공통된 Core Data Manager를 사용함으로써, 오류를 해결할 수 있었습니다.
 
